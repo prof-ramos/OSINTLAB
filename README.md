@@ -11,6 +11,7 @@ O OSINTLAB é um repositório dedicado ao desenvolvimento e aprimoramento de fer
 
 ### 🛠️ Ferramentas Incluídas
 
+- **Domain Checker** ⚡ - Verificador assíncrono de domínios .com.br com API do Registro.br
 - **Sherlock** - Localização de contas em redes sociais (forks aprimorados)
 - **Spider** - Rastreamento e coleta de dados web
 - **Archive** - Análise de dados arquivados e históricos
@@ -64,6 +65,10 @@ python -m osintlab.maigret email@exemplo.com
 ### Exemplos Avançados
 
 ```bash
+# Verificar disponibilidade de domínios .com.br
+cd tools/domain-checker
+python domain_checker_advanced.py --pattern custom:abc
+
 # Busca completa em todas as plataformas
 python -m osintlab search --target username --platforms all
 
@@ -79,6 +84,7 @@ python -m osintlab spider --ip 192.168.1.1
 ```
 osintlab/
 ├── tools/              # Ferramentas individuais
+│   ├── domain-checker/ # Verificação de domínios .com.br
 │   ├── sherlock/       # Localização de contas
 │   ├── maigret/        # Busca de perfis
 │   ├── holehe/         # Verificação de emails

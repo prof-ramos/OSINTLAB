@@ -1,0 +1,14 @@
+# Verificador Assíncrono de Domínios .com.br
+# Dependências necessárias para execução
+
+# Cliente HTTP assíncrono
+aiohttp>=3.9.0
+
+# Necessário para SSL/TLS
+certifi>=2023.7.22
+
+# Suporte a caracteres especiais
+charset-normalizer>=3.3.0
+
+# Para manipulação de data/hora
+python-dateutil>=2.8.2

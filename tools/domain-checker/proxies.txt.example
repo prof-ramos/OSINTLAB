@@ -1,0 +1,16 @@
+# Arquivo de exemplo de proxies
+# Um proxy por linha no formato: protocolo://host:porta
+#
+# Exemplos:
+# http://proxy1.exemplo.com:8080
+# https://proxy2.exemplo.com:3128
+# socks5://proxy3.exemplo.com:1080
+#
+# Com autenticação:
+# http://usuario:senha@proxy.exemplo.com:8080
+#
+# Renomeie este arquivo para proxies.txt e adicione seus proxies
+
+# Proxies públicos gratuitos (apenas exemplos - teste antes de usar)
+# http://103.159.46.34:83
+# http://201.20.105.198:8080
