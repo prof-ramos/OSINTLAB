@@ -1,0 +1,295 @@
+[project]
+name = "osintlab"
+version = "1.0.0"
+description = "Open Source Intelligence Laboratory - Ferramentas OSINT integradas"
+authors = [
+    {name = "Gabriel Ramos", email = "prof-ramos@users.noreply.github.com"}
+]
+readme = "README.md"
+license = {text = "MIT"}
+requires-python = ">=3.8"
+keywords = ["osint", "intelligence", "investigation", "security", "recon"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Information Technology",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.8",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Security",
+]
+
+dependencies = [
+    # Interface Web
+    "streamlit>=1.28.0",
+    "plotly>=5.17.0",
+    "pandas>=2.0.0",
+    # HTTP Assíncrono
+    "aiohttp>=3.9.0",
+    "certifi>=2023.7.22",
+    "charset-normalizer>=3.3.0",
+    # Utilidades
+    "python-dateutil>=2.8.2",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    # Testes
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.5.0",
+    "pytest-timeout>=2.2.0",
+    "pytest-mock>=3.12.0",
+    "pytest-benchmark>=4.0.0",
+    # Code Quality
+    "black>=24.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+    "pre-commit>=3.6.0",
+    # Monitoramento e Performance
+    "pytest-html>=4.1.0",
+    "pytest-json-report>=1.5.0",
+    "pytest-profiling>=1.7.0",
+    "memray>=1.11.0",
+]
+
+test = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.5.0",
+    "pytest-timeout>=2.2.0",
+    "pytest-mock>=3.12.0",
+]
+
+all = [
+    "osintlab[dev,test]",
+]
+
+[project.urls]
+Homepage = "https://github.com/prof-ramos/OSINTLAB"
+Documentation = "https://github.com/prof-ramos/OSINTLAB/wiki"
+Repository = "https://github.com/prof-ramos/OSINTLAB"
+Issues = "https://github.com/prof-ramos/OSINTLAB/issues"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["tools", "ui"]
+
+# ============================================================================
+# PYTEST - Configuração de Testes
+# ============================================================================
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+python_files = ["test_*.py", "*_test.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+asyncio_mode = "auto"
+
+# Marcadores customizados para organização de testes
+markers = [
+    "unit: Testes unitários rápidos isolados",
+    "integration: Testes de integração entre componentes",
+    "e2e: Testes end-to-end completos",
+    "slow: Testes que demoram mais de 5 segundos",
+    "fast: Testes rápidos (< 1 segundo)",
+    "api: Testes que fazem chamadas externas de API",
+    "ui: Testes relacionados à interface Streamlit",
+    "domain_checker: Testes do Domain Checker",
+    "network: Testes que requerem conectividade de rede",
+    "asyncio: Testes assíncronos",
+    "benchmark: Testes de performance e benchmark",
+]
+
+# Opções de linha de comando padrão
+addopts = [
+    # Saída detalhada
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    # Cobertura
+    "--cov=tools",
+    "--cov=ui",
+    "--cov-report=term-missing:skip-covered",
+    "--cov-report=html:htmlcov",
+    "--cov-report=xml:coverage.xml",
+    "--cov-report=json:coverage.json",
+    # Performance
+    "--benchmark-skip",
+    # Formato
+    "--tb=short",
+    "--color=yes",
+]
+
+# Filtros de avisos
+filterwarnings = [
+    "error",
+    "ignore::UserWarning",
+    "ignore::DeprecationWarning",
+]
+
+# Timeouts
+timeout = 300
+timeout_method = "thread"
+
+# Execução paralela
+# Descomente para habilitar testes paralelos por padrão
+# addopts = ["-n", "auto"]
+
+# ============================================================================
+# COVERAGE - Configuração de Cobertura
+# ============================================================================
+[tool.coverage.run]
+source = ["tools", "ui"]
+omit = [
+    "*/tests/*",
+    "*/test_*.py",
+    "*/__pycache__/*",
+    "*/venv/*",
+    "*/.venv/*",
+    "*/site-packages/*",
+]
+branch = true
+parallel = true
+concurrency = ["thread", "multiprocessing"]
+
+[tool.coverage.report]
+precision = 2
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "class .*\\bProtocol\\):",
+    "@(abc\\.)?abstractmethod",
+]
+
+[tool.coverage.html]
+directory = "htmlcov"
+
+[tool.coverage.xml]
+output = "coverage.xml"
+
+[tool.coverage.json]
+output = "coverage.json"
+
+# ============================================================================
+# BLACK - Formatação de Código
+# ============================================================================
+[tool.black]
+line-length = 100
+target-version = ["py38", "py39", "py310", "py311", "py312"]
+include = '\.pyi?$'
+extend-exclude = '''
+/(
+    \.git
+  | \.hg
+  | \.mypy_cache
+  | \.tox
+  | \.venv
+  | _build
+  | buck-out
+  | build
+  | dist
+  | __pycache__
+)/
+'''
+
+# ============================================================================
+# RUFF - Linting
+# ============================================================================
+[tool.ruff]
+line-length = 100
+target-version = "py38"
+
+[tool.ruff.lint]
+select = [
+    "E",    # pycodestyle errors
+    "W",    # pycodestyle warnings
+    "F",    # pyflakes
+    "I",    # isort
+    "C",    # flake8-comprehensions
+    "B",    # flake8-bugbear
+    "UP",   # pyupgrade
+    "S",    # flake8-bandit (security)
+    "T20",  # flake8-print
+    "PT",   # flake8-pytest-style
+    "RET",  # flake8-return
+    "SIM",  # flake8-simplify
+    "ARG",  # flake8-unused-arguments
+]
+ignore = [
+    "E501",   # line too long (handled by black)
+    "B008",   # do not perform function calls in argument defaults
+    "C901",   # too complex
+    "S101",   # use of assert detected
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = [
+    "S101",   # assert allowed in tests
+    "ARG",    # unused arguments allowed in tests
+    "PT",     # pytest style rules
+]
+
+[tool.ruff.lint.isort]
+known-first-party = ["tools", "ui"]
+
+# ============================================================================
+# MYPY - Type Checking
+# ============================================================================
+[tool.mypy]
+python_version = "3.8"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = false
+disallow_incomplete_defs = false
+check_untyped_defs = true
+disallow_untyped_decorators = false
+no_implicit_optional = true
+warn_redundant_casts = true
+warn_unused_ignores = true
+warn_no_return = true
+strict_equality = true
+pretty = true
+
+[[tool.mypy.overrides]]
+module = "tests.*"
+disallow_untyped_defs = false
+check_untyped_defs = false
+
+[[tool.mypy.overrides]]
+module = [
+    "streamlit.*",
+    "plotly.*",
+    "aiohttp.*",
+]
+ignore_missing_imports = true
+
+# ============================================================================
+# UV - Configuração do gerenciador de pacotes
+# ============================================================================
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "pytest-asyncio>=0.23.0",
+    "pytest-cov>=4.1.0",
+    "pytest-xdist>=3.5.0",
+    "black>=24.0.0",
+    "ruff>=0.1.0",
+    "mypy>=1.8.0",
+]
