@@ -11,6 +11,7 @@ O OSINTLAB é um repositório dedicado ao desenvolvimento e aprimoramento de fer
 
 ### 🛠️ Ferramentas Incluídas
 
+- **Domain Checker** ⚡ - Verificador assíncrono de domínios .com.br com API do Registro.br
 - **Sherlock** - Localização de contas em redes sociais (forks aprimorados)
 - **Spider** - Rastreamento e coleta de dados web
 - **Archive** - Análise de dados arquivados e históricos
@@ -25,69 +26,156 @@ O OSINTLAB é um repositório dedicado ao desenvolvimento e aprimoramento de fer
 
 - Python 3.8 ou superior
 - Git
-- pip ou poetry para gerenciamento de dependências
+- pip para gerenciamento de dependências
 
-### Passos de Instalação
+### Instalação Rápida
 
 1. **Clone o repositório:**
    ```bash
-   git clone https://github.com/seu-usuario/osintlab.git
-   cd osintlab
+   git clone https://github.com/prof-ramos/OSINTLAB.git
+   cd OSINTLAB
    ```
 
 2. **Instale as dependências:**
    ```bash
    pip install -r requirements.txt
-   # ou se usar poetry:
-   poetry install
    ```
 
-3. **Configure as variáveis de ambiente (opcional):**
+3. **Inicie a interface web:**
    ```bash
-   cp .env.example .env
-   # Edite o .env com suas configurações
+   # Linux/macOS
+   ./run.sh
+
+   # Windows
+   run.bat
+
+   # Ou diretamente com Streamlit
+   streamlit run app.py
    ```
+
+4. **Acesse a interface:**
+
+   Abra seu navegador em: **http://localhost:8501**
+
+   🎉 Pronto! Agora você pode usar todas as ferramentas através da interface web intuitiva.
 
 ## 📖 Uso
 
-### Uso Básico
+### 🖥️ Interface Web (Recomendado)
+
+A forma mais fácil de usar o OSINTLAB é através da **interface web com Streamlit**:
 
 ```bash
-# Ativar ambiente virtual (recomendado)
-source venv/bin/activate  # ou poetry shell
+# Inicie a interface
+./run.sh  # Linux/macOS
+run.bat   # Windows
 
-# Executar uma ferramenta específica
-python -m osintlab.sherlock username
-python -m osintlab.maigret email@exemplo.com
+# Ou diretamente
+streamlit run app.py
 ```
 
-### Exemplos Avançados
+Acesse: **http://localhost:8501**
+
+**Recursos da Interface:**
+- ✅ Navegação intuitiva entre ferramentas
+- ✅ Formulários interativos
+- ✅ Visualização de resultados em tempo real
+- ✅ Export de dados (CSV, JSON, etc.)
+- ✅ Dashboards e gráficos
+- ✅ Documentação integrada
+
+### 💻 Linha de Comando (Avançado)
+
+Para usuários avançados, todas as ferramentas também podem ser usadas via CLI:
 
 ```bash
-# Busca completa em todas as plataformas
-python -m osintlab search --target username --platforms all
+# Verificar domínios .com.br (CLI)
+cd tools/domain-checker
+python domain_checker_advanced.py --pattern custom:abc
 
-# Análise de domínio
-python -m osintlab whois exemplo.com
+# Com configurações avançadas
+python domain_checker_advanced.py \
+  --pattern 3letters \
+  --batch-size 100 \
+  --batch-delay 0.5 \
+  --proxy-file proxies.txt
 
-# Rastreamento de IP
-python -m osintlab spider --ip 192.168.1.1
+# Teste rápido
+python test_quick.py
 ```
 
 ## 📁 Estrutura do Projeto
 
 ```
-osintlab/
-├── tools/              # Ferramentas individuais
-│   ├── sherlock/       # Localização de contas
-│   ├── maigret/        # Busca de perfis
-│   ├── holehe/         # Verificação de emails
-│   └── ...
-├── core/               # Núcleo do sistema
-├── utils/              # Utilitários compartilhados
-├── tests/              # Testes automatizados
-└── docs/               # Documentação
+OSINTLAB/
+├── app.py              # Aplicação principal Streamlit
+├── run.sh              # Script de inicialização (Linux/macOS)
+├── run.bat             # Script de inicialização (Windows)
+├── requirements.txt    # Dependências do projeto
+├── .streamlit/         # Configurações do Streamlit
+│   └── config.toml
+├── ui/                 # Interface do usuário
+│   ├── pages/          # Páginas individuais
+│   │   └── domain_checker.py
+│   ├── components/     # Componentes reutilizáveis
+│   └── utils/          # Utilitários da UI
+├── tools/              # Ferramentas OSINT
+│   ├── domain-checker/ # Verificação de domínios .com.br
+│   │   ├── domain_checker_basic.py
+│   │   ├── domain_checker_advanced.py
+│   │   ├── test_quick.py
+│   │   ├── requirements.txt
+│   │   └── README.md
+│   ├── sherlock/       # Localização de contas (Em breve)
+│   ├── maigret/        # Busca de perfis (Em breve)
+│   └── holehe/         # Verificação de emails (Em breve)
+└── README.md           # Este arquivo
 ```
+
+## 🎨 Interface Web
+
+O OSINTLAB possui uma interface web moderna e intuitiva construída com **Streamlit**.
+
+### Características da UI
+
+- 🎯 **Navegação Simples** - Menu lateral com acesso rápido a todas as ferramentas
+- 📊 **Visualização em Tempo Real** - Acompanhe o progresso das análises
+- 💾 **Export de Dados** - Baixe resultados em CSV, JSON e outros formatos
+- 📈 **Dashboards Interativos** - Gráficos e visualizações dinâmicas
+- 📚 **Documentação Integrada** - Tutoriais e exemplos dentro da interface
+- ⚙️ **Configurações Avançadas** - Controle total sobre os parâmetros
+
+### Adicionando Novas Ferramentas à UI
+
+Para adicionar uma nova ferramenta à interface:
+
+1. Crie um arquivo em `ui/pages/` com o nome da ferramenta:
+   ```python
+   # ui/pages/minha_ferramenta.py
+   import streamlit as st
+
+   def show_minha_ferramenta():
+       st.markdown("# 🔧 Minha Ferramenta")
+       # Sua implementação aqui
+   ```
+
+2. Adicione a ferramenta ao menu em `app.py`:
+   ```python
+   # No menu de navegação
+   page = st.radio(
+       "Navegação",
+       ["🏠 Home", "🌐 Domain Checker", "🔧 Minha Ferramenta", "📊 Sobre"]
+   )
+
+   # No conteúdo principal
+   elif page == "🔧 Minha Ferramenta":
+       from ui.pages.minha_ferramenta import show_minha_ferramenta
+       show_minha_ferramenta()
+   ```
+
+3. Atualize o card da ferramenta na home page em `app.py`
+
+4. Pronto! A ferramenta estará disponível na interface.
 
 ## 🤝 Contribuição
 
@@ -105,6 +193,7 @@ Contribuições são bem-vindas! Para contribuir:
 - Adicione testes para novas funcionalidades
 - Atualize a documentação conforme necessário
 - Mantenha compatibilidade com Python 3.8+
+- Ao adicionar ferramentas, integre-as à interface web
 
 ## 📄 Licença
 

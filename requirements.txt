@@ -1,0 +1,35 @@
+# OSINTLAB - Requirements
+# Dependências principais do projeto
+
+# ===== Interface Web =====
+streamlit>=1.28.0
+plotly>=5.17.0
+pandas>=2.0.0
+
+# ===== HTTP Assíncrono =====
+aiohttp>=3.9.0
+certifi>=2023.7.22
+charset-normalizer>=3.3.0
+
+# ===== Utilidades =====
+python-dateutil>=2.8.2
+requests>=2.31.0
+
+# ===== OSINT Tools (Em desenvolvimento) =====
+# Sherlock - Localização de contas (Em breve)
+# beautifulsoup4>=4.12.0
+# lxml>=4.9.0
+
+# Maigret - Busca de perfis (Em breve)
+# aiofiles>=23.2.0
+
+# Holehe - Verificação de emails (Em breve)
+# validators>=0.22.0
+
+# Whois - Consultas de domínio (Em breve)
+# python-whois>=0.8.0
+
+# ===== Desenvolvimento (Opcional) =====
+# pytest>=7.4.0
+# black>=23.9.0
+# flake8>=6.1.0
